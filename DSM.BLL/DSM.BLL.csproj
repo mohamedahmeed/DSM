@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DSM.DAL\DSM.DAL.csproj" />
+    <ProjectReference Include="..\DSM.DTO\DSM.DTO.csproj" />
+  </ItemGroup>
+
+</Project>
