@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace DSM.Areas.people.controller
 {
     [Area("people")]
-    public class Usercontroller : Controller
+    public class UserController : Controller
     {
         private readonly UserBLL bll;
 
-        public Usercontroller(UserBLL bll)
+        public UserController(UserBLL bll)
         {
             this.bll = bll;
         }
