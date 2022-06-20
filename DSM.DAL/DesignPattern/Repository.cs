@@ -167,20 +167,13 @@ namespace DSM.DAL
         #endregion
 
         #region Get
-
+        
         public virtual IQueryable<T> Find(Func<T, bool> predicate) => data.Where(predicate).AsQueryable<T>();
 
-
         public virtual IQueryable<T> GetAll() => data.AsQueryable();
-
         public virtual IQueryable<T> GetAllAsNoTracking() => data.AsNoTracking().AsQueryable();
-
-
         public virtual async Task<IQueryable<T>> GetAllAsync() => await Task.FromResult(data.AsQueryable());
-
-
         public virtual T GetById(object Id) => data.Find(Id);
-
         public virtual T GetByIdDetached(object Id)
         {
             var data = GetById(Id);

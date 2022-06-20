@@ -57,9 +57,11 @@
             </td>
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.ID  }) |
-                @Html.ActionLink("Details", "Details", new { id=item.ID  }) |
+             
+                 <a href="/people/branch/Edit/@item.ID"> Edit</a>|
+             
                 @Html.ActionLink("Delete", "Delete", new { id=item.ID  })
+                <a href="/people/branch/details/@item.ID"> Details</a>
             </td>
         </tr>
 }

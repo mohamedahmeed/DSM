@@ -1,18 +1,22 @@
 ﻿@model DSM.DTO.BranchDTO
 
 @{
-    ViewData["Title"] = "Add";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Add</h1>
+<h1>Edit</h1>
 
 <h4>BranchDTO</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" action="/people/branch/save"  >
+        <form method="post" action="/people/branch/Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+            <div hidden class="form-group">
+                <label asp-for="ID" class="control-label"></label>
+                <input asp-for="ID" class="form-control" />
+                <span asp-validation-for="ID" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Poster" class="control-label"></label>
                 <input asp-for="Poster" class="form-control" />
@@ -34,15 +38,14 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                @*<button type="submit" href="/people/branch/save">Create</button>*@
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a href="http://localhost:4540/people/branch/index">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

@@ -1,8 +1,10 @@
-﻿using DSM.BLL.PEPOLE;
+﻿using AutoMapper;
+using DSM.BLL.PEPOLE;
 using DSM.DTO;
 using DSM.TABLES.Guide;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace DSM.Areas.people.controller
@@ -25,6 +27,12 @@ namespace DSM.Areas.people.controller
             return View(b);
         }
         [HttpGet]
+        public ActionResult Details(Guid id)
+        {
+            var v = branch.GetBranchById(id);
+            return View(v);
+        }
+        [HttpGet]
          public ActionResult Add()
         
         {
@@ -45,24 +53,31 @@ namespace DSM.Areas.people.controller
         
        
         // GET: BranchController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
+        [HttpGet]
+        public ActionResult Edit(Guid id)
+        {    
+            var v=branch.GetBranchById(id);
+            BranchDTO bra = new BranchDTO()
+            {
+              CreatedDate=v.CreatedDate,
+                Name=v.Name,
+                 ID=v.ID,
+                IsActive=v.IsActive,
+                Poster=v.Poster,
+            };
+            return View(bra);
         }
 
         // POST: BranchController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(BranchDTO branchDTO )
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+           
+                branch.EditBrabch(branchDTO.ID, branchDTO);
+            return Redirect("http://localhost:4540/people/branch/index");
+            
+           
         }
 
         // GET: BranchController/Delete/5
@@ -73,7 +88,7 @@ namespace DSM.Areas.people.controller
 
         // POST: BranchController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try

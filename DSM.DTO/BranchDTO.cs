@@ -8,7 +8,7 @@ namespace DSM.DTO
 {
     public class BranchDTO
     {
-        public Guid ID { get; set; }
+       public Guid ID { get; set; }
 
         public string Poster { get; set; }
         public string Name { get; set; }
