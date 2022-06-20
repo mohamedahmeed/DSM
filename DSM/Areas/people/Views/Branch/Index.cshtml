@@ -59,11 +59,24 @@
             <td>
              
                  <a href="/people/branch/Edit/@item.ID"> Edit</a>|
-             
-                @Html.ActionLink("Delete", "Delete", new { id=item.ID  })
-                <a href="/people/branch/details/@item.ID"> Details</a>
+               @* @Html.ActionLink("Delete", "Delete", new { id=item.ID  })*@
+                <a href="/people/branch/details/@item.ID"> Details</a>|
+                 <a href="/people/branch/delete/@item.ID" onclick="del()"> Delete</a>
+
             </td>
         </tr>
 }
     </tbody>
-</table>
+
+    @section Scripts{
+        <script>
+            function del(){
+                var c=confirm("Are You sure You Want To Delete");
+                if(!c){
+                return event.preventDefault();
+                 
+                }
+            }
+        </script>
+    }
+ </table>

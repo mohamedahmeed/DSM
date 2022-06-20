@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Add";
+   
 }
 
 <h1>Add</h1>
@@ -10,19 +11,25 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" action="/people/branch/save"  >
+        <form>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+            <div hidden class="form-group">
+                <label  class="control-label">ID</label>
+                <input asp-for="ID" class="form-control" />
+                <span asp-validation-for="ID" class="text-danger"></span>
+            </div>
+
+              <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Poster" class="control-label"></label>
                 <input asp-for="Poster" class="form-control" />
                 <span asp-validation-for="Poster" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+          
             <div class="form-group">
                 <label asp-for="CreatedDate" class="control-label"></label>
                 <input asp-for="CreatedDate" class="form-control" />
@@ -34,17 +41,60 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                @*<button type="submit" href="/people/branch/save">Create</button>*@
+                <input type="submit" id="btnSave" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<input type="button" onclick="find()" />
 <div>
     <a href="http://localhost:4540/people/branch/index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function find(){
+       alertify.success("HI");
+        }
+       $("#btnSave").on('click', function () {
+               
+                var frmdata = new FormData();
+                frmdata.append("Name", $("#Name").val());
+                frmdata.append("Poster", $("#Poster").val());
+                frmdata.append("CreatedDate", $("#CreatedDate").val());
+                frmdata.append("IsActive", $("#IsActive").val());
+                $.ajax({
+                    method: 'post',
+                    data: frmdata,
+                    url: 'http://localhost:4540/people/branch/Save',
+                    contentType: false,
+                    processData: false,
+                    dataType:"Json",
+                    success:function(res)
+                    {
+                        if (res.status)
+                        {
+                            alertify.success(res.message);
+                            window.location.href = "http://localhost:4540/people/branch/Index"
+                        }
+                        else
+                        {
+                            alertify.error(res.message);
+                        }
+
+                    },
+                         error: function (res)
+                         {
+                        alertify.error( res.message);
+                    }
+
+                });
+              
+
+            });
+       
+       
+    </script>
 }

@@ -15,7 +15,7 @@ namespace DSM.BLL.PEPOLE
         private readonly IRepository<Branch> branchRepo;
         private readonly IMapper mapper;
 
-        public BranchBLL(IRepository<Branch> branchRepo,IMapper mapper)
+        public BranchBLL(IRepository<Branch> branchRepo, IMapper mapper)
         {
             this.branchRepo = branchRepo;
             this.mapper = mapper;
@@ -28,30 +28,30 @@ namespace DSM.BLL.PEPOLE
         {
             resultDTO result = new resultDTO();
             List<Branch> Branchs = branchRepo.GetAllAsNoTracking().ToList();
-
+            
             result.data = Branchs;
             return result;
         }
         public Branch GetBranchById(Guid b)
         {
-            Branch bb=branchRepo.GetById(b);
+            Branch bb = branchRepo.GetById(b);
             return bb;
         }
         #endregion
 
-        public resultDTO EditBrabch(Guid ID,BranchDTO branch)
+        public resultDTO EditBrabch(Guid ID, BranchDTO branch)
         {
             resultDTO result = new resultDTO();
             List<Branch> branches = branchRepo.GetAll().ToList();
             var br = branches.Where(r => r.ID == branch.ID).FirstOrDefault();
-            if(br != null)
+            if (br != null)
             {
                 var brs = branches.Where(s => s.ID != branch.ID);
-                if(brs.Any(s=>s.Name != branch.Name))
+                if (brs.Any(s => s.Name != branch.Name))
                 {
-                    br.Name=branch.Name;
-                    br.CreatedDate=branch.CreatedDate;
-                    br.Poster=branch.Poster;
+                    br.Name = branch.Name;
+                    br.CreatedDate = branch.CreatedDate;
+                    br.Poster = branch.Poster;
                     branchRepo.Update(br);
                     branchRepo.SaveChange();
                     result.message = "Edit Succes";
@@ -66,14 +66,36 @@ namespace DSM.BLL.PEPOLE
         }
         public resultDTO SaveAdd(BranchDTO branch)
         {
+            resultDTO r = new resultDTO();
+            var br = branchRepo.GetAll();
+            if (br != null)
+            {
+                var bb = br.Where(r => r.Name == branch.Name).FirstOrDefault();
+                if (bb == null)
+                {
+                    Branch b = mapper.Map<Branch>(branch);
+                    branchRepo.Insert(b);
 
-
-           Branch b= mapper.Map<Branch>(branch);
-            branchRepo.Insert(b);
-            resultDTO r = new resultDTO {
-                message="no no no",
-            };
+                    r.message = "Add success";
+                    r.Status = true;
+                    return r;
+                }
+                else
+                {
+                    r.message = "Add faild";
+                    r.data = branch;
+                    r.Status = false;
+                    return r;
+                }
+                
+            }
             return r;
+        }
+
+        public Branch Delete(Branch b)
+        {
+            branchRepo.Delete(b);
+            return b;
         }
     }
 }

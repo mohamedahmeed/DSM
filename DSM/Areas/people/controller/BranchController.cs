@@ -41,8 +41,9 @@ namespace DSM.Areas.people.controller
         [HttpPost]
         public ActionResult Save(BranchDTO bb)
         {
-          var b=  branch.SaveAdd(bb);
-            return Redirect("http://localhost:4540/people/branch/index");
+
+            return Json(branch.SaveAdd(bb));
+
         }
         // GET: BranchController/Details/5
         public ActionResult Details(int id)
@@ -81,24 +82,25 @@ namespace DSM.Areas.people.controller
         }
 
         // GET: BranchController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Branch b)
         {
-            return View();
+            branch.Delete(b);
+            return Redirect("http://localhost:4540/people/branch/index");
         }
 
         // POST: BranchController/Delete/5
-        [HttpPost]
+        //[HttpPost]
         
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //public ActionResult Delete(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }
