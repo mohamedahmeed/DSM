@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DSM.BLL.PEPOLE;
 using DSM.DAL;
+using DSM.DTO;
 using DSM.TABLES.Pepole;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,9 @@ namespace DSM
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
            services.AddScoped<UserBLL>();
+            services.AddScoped<BranchBLL>();
+            services.AddAutoMapper(typeof(UserProfile));
+            
 
             services.AddDbContext<DSMDBContext>(option =>
             {

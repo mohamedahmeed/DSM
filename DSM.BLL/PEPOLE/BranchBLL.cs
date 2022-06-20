@@ -1,4 +1,5 @@
-﻿using DSM.DAL;
+﻿using AutoMapper;
+using DSM.DAL;
 using DSM.DTO;
 using DSM.TABLES.Guide;
 using System;
@@ -12,10 +13,12 @@ namespace DSM.BLL.PEPOLE
     public class BranchBLL
     {
         private readonly IRepository<Branch> branchRepo;
+        private readonly IMapper mapper;
 
-        public BranchBLL(IRepository<Branch> branchRepo)
+        public BranchBLL(IRepository<Branch> branchRepo,IMapper mapper)
         {
             this.branchRepo = branchRepo;
+            this.mapper = mapper;
         }
 
 
@@ -24,17 +27,22 @@ namespace DSM.BLL.PEPOLE
         public resultDTO GetBranches()
         {
             resultDTO result = new resultDTO();
-            result.data = new {
-                Branchs = branchRepo.GetAllAsNoTracking().Select(s => new
-                {
-                    poster = s.Poster,
-                    name = s.Name,
-                    createdDate=s.CreatedDate,
-                    isactive=s.IsActive,
-                })
-            };
+            List<Branch> Branchs = branchRepo.GetAllAsNoTracking().ToList();
+
+            result.data = Branchs;
             return result;
         }
+
         #endregion
+
+        public resultDTO SaveAdd(BranchDTO branch)
+        {
+           Branch b= mapper.Map<Branch>(branch);
+            branchRepo.Insert(b);
+            resultDTO r = new resultDTO {
+                message="no no no",
+            };
+            return r;
+        }
     }
 }

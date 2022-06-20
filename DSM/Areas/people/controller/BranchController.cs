@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace DSM.Areas.people.controller
 {
+    [Area("people")]
     public class BranchController : Controller
     {
         private readonly BranchBLL branch;
@@ -19,38 +20,30 @@ namespace DSM.Areas.people.controller
         public ActionResult Index()
         {
             resultDTO r=new resultDTO();
-            var b = branch.GetBranches().data;
-            List<Branch> branches =b.
+            var b = branch.GetBranches();
+            
+            return View(b);
+        }
+        [HttpGet]
+         public ActionResult Add()
+        
+        {
             return View();
         }
-
+        [HttpPost]
+        public ActionResult Save(BranchDTO bb)
+        {
+          var b=  branch.SaveAdd(bb);
+            return Redirect("http://localhost:4540/people/branch/index");
+        }
         // GET: BranchController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: BranchController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: BranchController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+        
+       
         // GET: BranchController/Edit/5
         public ActionResult Edit(int id)
         {
