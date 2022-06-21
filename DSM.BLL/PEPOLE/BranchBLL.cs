@@ -82,7 +82,7 @@ namespace DSM.BLL.PEPOLE
                 }
                 else
                 {
-                    r.message = "Add faild";
+                    r.message = "Name Already Exists";
                     r.data = branch;
                     r.Status = false;
                     return r;

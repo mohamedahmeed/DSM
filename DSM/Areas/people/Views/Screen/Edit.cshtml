@@ -1,4 +1,4 @@
-﻿@model DSM.DTO.BranchDTO
+﻿@model DSM.DTO.ScreenDTO
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,22 +6,17 @@
 
 <h1>Edit</h1>
 
-<h4>BranchDTO</h4>
+<h4>ScreenDTO</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" action="/people/branch/Edit" > 
-            @Html.AntiForgeryToken();
+        <form method="post" action="/people/screen/Edit">
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div hidden class="form-group">
+            <div class="form-group">
                 <label asp-for="ID" class="control-label"></label>
                 <input asp-for="ID" class="form-control" />
                 <span asp-validation-for="ID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Poster" class="control-label"></label>
-                <input asp-for="Poster" class="form-control" />
-                <span asp-validation-for="Poster" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -39,6 +34,21 @@
                 </label>
             </div>
             <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScreenSize" class="control-label"></label>
+                <input asp-for="ScreenSize" class="form-control" />
+                <span asp-validation-for="ScreenSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -46,7 +56,7 @@
 </div>
 
 <div>
-    <a href="http://localhost:4540/people/branch/index">Back to List</a>
+    <a href="http://localhost:4540/people/screen/index">Back to List</a>
 </div>
 
 @section Scripts {

@@ -19,7 +19,7 @@ namespace DSM.TABLES.Guide
         public float ScreenSize  { get; set; }
         public ScreenDirection ScreenDirection { get; set; }
         [ForeignKey("Branch")]
-        public Guid BranchId { get; set; }
+        public Guid? BranchId { get; set; }
 
         public Branch Branch { get; set; }
 

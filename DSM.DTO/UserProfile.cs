@@ -13,6 +13,8 @@ namespace DSM.DTO
         public UserProfile()
         {
             CreateMap<BranchDTO,Branch>().ReverseMap();
+            CreateMap<ScreenDTO, ImagesScreen>().ReverseMap();
+
         }
     }
 }

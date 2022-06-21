@@ -32,6 +32,8 @@ namespace DSM
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
            services.AddScoped<UserBLL>();
             services.AddScoped<BranchBLL>();
+            services.AddScoped<ScreenBLL>();
+
             services.AddAutoMapper(typeof(UserProfile));
             
 

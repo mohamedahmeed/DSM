@@ -1,0 +1,79 @@
+﻿@model DSM.DTO.resultDTO
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a href="http://localhost:4540/people/Screen/Add">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                Name
+            </th>
+            <th>
+              CreatedDate
+            </th>
+            <th>
+                IsActive
+            </th>
+            <th>
+                Code
+            </th>
+            <th>
+                Notes
+            </th>
+            <th>
+                ScreenSize
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in(List<DSM.TABLES.Guide.ImagesScreen>) Model.data) {
+        <tr>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScreenSize)
+            </td>
+            <td>
+                <a href="/people/Screen/Edit/@item.ID"> Edit</a>|
+                <a href="/people/Screen/details/@item.ID"> Details</a>|
+                 <a href="/people/Screen/delete/@item.ID" onclick="del()"> Delete</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+     @section Scripts{
+        <script>
+            function del(){
+                var c=confirm("Are You sure You Want To Delete");
+                if(!c){
+                return event.preventDefault();
+                 
+                }
+            }
+        </script>
+    }
+</table>
