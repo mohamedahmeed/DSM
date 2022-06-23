@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
+@{
+    SelectList items = new SelectList(@ViewBag.bb,"ID","Name");
+}
 <h1>Edit</h1>
 
 <h4>ScreenDTO</h4>
@@ -13,7 +15,7 @@
         <form method="post" action="/people/screen/Edit">
             @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div hidden class="form-group">
                 <label asp-for="ID" class="control-label"></label>
                 <input asp-for="ID" class="form-control" />
                 <span asp-validation-for="ID" class="text-danger"></span>
@@ -27,6 +29,10 @@
                 <label asp-for="CreatedDate" class="control-label"></label>
                 <input asp-for="CreatedDate" class="form-control" />
                 <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BranchId" class="control-label">Branch</label>
+              <select asp-for="BranchId" class="form-control"  asp-items="items" ></select>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">

@@ -1,8 +1,10 @@
 ﻿using DSM.BLL.PEPOLE;
 using DSM.DTO;
+using DSM.TABLES.Guide;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace DSM.Areas.people.controller
 {
@@ -10,10 +12,12 @@ namespace DSM.Areas.people.controller
     public class ScreenController : Controller
     {
         private readonly ScreenBLL screen;
+        private readonly BranchBLL branch;
 
-        public ScreenController(ScreenBLL screen)
+        public ScreenController(ScreenBLL screen,BranchBLL branch)
         {
             this.screen = screen;
+            this.branch = branch;
         }
         // GET: ScreenController
         public ActionResult Index()
@@ -45,6 +49,8 @@ namespace DSM.Areas.people.controller
         // GET: ScreenController/Edit/5
         public ActionResult Edit(Guid id)
         {
+            List<Branch> b = branch.Branches();
+            ViewBag.bb = b;
             var s= screen.GetById(id);
             ScreenDTO r = new ScreenDTO()
             {
@@ -54,6 +60,7 @@ namespace DSM.Areas.people.controller
                 ScreenSize = s.ScreenSize,
                 Notes = s.Notes,
                 IsActive= s.IsActive,
+                BranchId=s.BranchId,
             };
 
             return View(r);

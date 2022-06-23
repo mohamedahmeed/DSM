@@ -2,8 +2,20 @@
 
 @{
     ViewData["Title"] = "Index";
-}
+   } 
+@{
+    var c="checked";
+    foreach (var item in (List<DSM.TABLES.Guide.ImagesScreen>) Model.data)
+    {
+        if (item.IsActive)
+        {
+            c = "checked";
+        }
+    }
 
+  
+}
+}
 <h1>Index</h1>
 
 <p>
@@ -19,8 +31,11 @@
             <th>
               CreatedDate
             </th>
-            <th>
+            <th >
                 IsActive
+            </th>
+            <th>
+                Branch 
             </th>
             <th>
                 Code
@@ -35,6 +50,7 @@
         </tr>
     </thead>
     <tbody>
+
 @foreach (var item in(List<DSM.TABLES.Guide.ImagesScreen>) Model.data) {
         <tr>
            
@@ -45,7 +61,12 @@
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
+                
+@*       Html.DisplayFor(modelItem => item.IsActive)*@
+                <input id="inp" type="checkbox" disabled="false"   >
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.Branch.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Code)
@@ -74,6 +95,8 @@
                  
                 }
             }
+              var el = document.getElementById('inp');
+                el.myProperty = c;
         </script>
     }
 </table>

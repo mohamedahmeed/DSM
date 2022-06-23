@@ -2,6 +2,7 @@
 using DSM.DAL;
 using DSM.DTO;
 using DSM.TABLES.Guide;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,10 @@ namespace DSM.BLL.PEPOLE
 
 
         #region Get
-
+        public List<Branch> Branches()
+        {
+         return  branchRepo.GetAll().ToList();
+        } 
         public resultDTO GetBranches()
         {
             resultDTO result = new resultDTO();

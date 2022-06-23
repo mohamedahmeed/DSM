@@ -18,5 +18,6 @@ namespace DSM.DTO
       //  public ScreenDirection ScreenDirection { get; set; }
 
         public float ScreenSize { get; set; }
+        public Guid? BranchId { get; set; }
     }
 }

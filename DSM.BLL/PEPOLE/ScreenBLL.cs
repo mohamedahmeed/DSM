@@ -2,6 +2,7 @@
 using DSM.DAL;
 using DSM.DTO;
 using DSM.TABLES.Guide;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace DSM.BLL.PEPOLE
         public resultDTO GetAll()
         {
             resultDTO result = new resultDTO();
-            List<ImagesScreen> s = screenRepo.GetAll().ToList();
+            List<ImagesScreen> s = screenRepo.GetAll().Include(s => s.Branch).ToList();
             result.data = s;
             return result;
         }
@@ -63,7 +64,7 @@ namespace DSM.BLL.PEPOLE
             var sc= screens.Where(s => s.ID == screen.ID).FirstOrDefault();
             if (sc != null)
             {
-                var ss = screens.Where(x => x.Name == screen.Name).Where(x => x.IsActive).FirstOrDefault();
+                var ss = screens.Where(x => x.Name != screen.Name).Where(x => x.IsActive).FirstOrDefault();
                 if(ss!=null)
                 {
                     r.message = "Edit Faild";
@@ -77,6 +78,7 @@ namespace DSM.BLL.PEPOLE
                     sc.Code = screen.Code;
                     sc.CreatedDate = screen.CreatedDate;
                     sc.ScreenSize = screen.ScreenSize;
+                    sc.BranchId = screen.BranchId;
                     screenRepo.Update(sc);
                     screenRepo.SaveChange();
                     r.message = "Edit success";
