@@ -62,8 +62,8 @@
             </td>
             <td>
                 
-               @*Html.DisplayFor(modelItem => item.IsActive)*@
-                <input id="inp" type="checkbox" value=@item.  >
+              @Html.DisplayFor(modelItem => item.IsActive)
+              @*<input id="inp" type="checkbox" value="@item.IsActive" >*@
                
             </td>
              <td>
@@ -96,8 +96,19 @@
                  
                 }
             }
-              var el = document.getElementById('inp');
-                el.myProperty = "@c";
+           //$(document).ready(function () {
+           //  // var el = document.getElementById('isactive');
+           //   document.getElementById('tt').disabled = false;
+           //   //  el.myProperty = "@c";
+           //}
+           $(document).ready(function () 
+           {
+              console.log("hi")
+             if($("#inp").val) {
+                 console.log("hi11")
+                 $("#inp").setAttribute( 'checked', 'checked' );
+             }
+           }
         </script>
     }
 </table>

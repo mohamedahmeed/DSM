@@ -29,7 +29,7 @@ namespace DSM.BLL.PEPOLE
             result.data = s;
             return result;
         }
-        public ImagesScreen GetById(Guid id)
+        public ImagesScreen GetById(Guid? id)
         {
             return screenRepo.GetById(id);
         }
@@ -72,8 +72,10 @@ namespace DSM.BLL.PEPOLE
             var sc= screens.Where(s => s.ID == screen.ID).FirstOrDefault();
             if (sc != null)
             {
-                var ss = screens.Where(x => x.Name != screen.Name).Where(x => x.IsActive).FirstOrDefault();
-                if(ss!=null)
+                var scrs = screens.Where(s => s.ID != screen.ID);
+                if (scrs.Any(s => s.Name == screen.Name))
+                //    var ss = screens.Where(x => x.Name != screen.Name).FirstOrDefault();
+                //if(ss!=null)
                 {
                     r.message = "Edit Faild";
                     r.Status = false;

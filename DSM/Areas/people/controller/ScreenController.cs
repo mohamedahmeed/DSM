@@ -47,7 +47,7 @@ namespace DSM.Areas.people.controller
         }
 
         // GET: ScreenController/Edit/5
-        public ActionResult Edit(Guid id)
+        public ActionResult Edit(Guid? id)
         {
             List<Branch> b = branch.Branches();
             ViewBag.bb = b;
