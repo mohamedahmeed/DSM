@@ -14,7 +14,7 @@ namespace DSM.TABLES.Base
     {
         #region prop
         [Key]
-        public Guid ID { get; set; }
+        public Guid? ID { get; set; }
         public string Name { get; set; }
         public DateTime CreatedDate { get; set; }
 

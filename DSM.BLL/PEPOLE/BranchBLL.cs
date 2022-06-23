@@ -43,7 +43,7 @@ namespace DSM.BLL.PEPOLE
         }
         #endregion
 
-        public resultDTO EditBrabch(Guid ID, BranchDTO branch)
+        public resultDTO EditBrabch(Guid? ID, BranchDTO branch)
         {
             resultDTO result = new resultDTO();
             List<Branch> branches = branchRepo.GetAll().ToList();

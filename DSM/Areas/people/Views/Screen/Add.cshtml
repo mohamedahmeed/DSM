@@ -44,7 +44,12 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    @*<input type="radio" class="checkbox style-0" asp-for="IsActive" value=true />*@
+                    <input asp-for="IsActive" type="checkbox"  value="false"    
+                        onchange="this.value=this.checked" />
+                   @* <input class="form-check-input" asp-for="IsActive" /> *@
+                    @Html.DisplayNameFor(model => model.IsActive)
+                   
                 </label>
             </div>
            

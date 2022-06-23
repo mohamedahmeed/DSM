@@ -43,9 +43,17 @@ namespace DSM.BLL.PEPOLE
                 if (s == null)
                 {
                     ImagesScreen images = mapper.Map<ImagesScreen>(screen);
-                    screenRepo.Insert(images);
-                    r.message = "Add succes";
-                    r.Status = true;
+
+                   if(screenRepo.Insert(images))
+                    {
+                        r.message = "Add succes";
+                        r.Status = true;
+                    }
+                    else
+                    {
+                        r.message = "Add Faild";
+                        r.Status = false;
+                    }
                     
                 }
                 else
@@ -57,7 +65,7 @@ namespace DSM.BLL.PEPOLE
             return r;
         }
        
-        public resultDTO Edit(Guid id,ScreenDTO screen)
+        public resultDTO Edit(Guid? id,ScreenDTO screen)
         {
             resultDTO r = new resultDTO();
             List<ImagesScreen> screens= screenRepo.GetAll().ToList();

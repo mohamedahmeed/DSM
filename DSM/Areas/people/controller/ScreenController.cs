@@ -77,9 +77,12 @@ namespace DSM.Areas.people.controller
         }
 
         // GET: ScreenController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(ImagesScreen s)
         {
-            return View();
+           // var x = screen.GetById(id);
+            screen.Delete(s);
+            return Redirect("http://localhost:4540/people/screen/index");
+            
         }
 
         // POST: ScreenController/Delete/5

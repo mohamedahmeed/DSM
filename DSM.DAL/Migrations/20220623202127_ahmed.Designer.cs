@@ -4,14 +4,16 @@ using DSM.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DSM.DAL.Migrations
 {
     [DbContext(typeof(DSMDBContext))]
-    partial class DSMDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220623202127_ahmed")]
+    partial class ahmed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

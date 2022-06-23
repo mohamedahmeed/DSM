@@ -21,7 +21,7 @@ namespace DSM.Areas.people.controller
         // GET: BranchController
         public ActionResult Index()
         {
-            resultDTO r=new resultDTO();
+           // resultDTO r=new resultDTO();
             var b = branch.GetBranches();
             
             return View(b);

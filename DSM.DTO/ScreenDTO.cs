@@ -9,7 +9,7 @@ namespace DSM.DTO
 {
     public class ScreenDTO
     {
-        public Guid ID { get; set; }
+        public Guid? ID { get; set; }
         public string Name { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsActive { get; set; }
