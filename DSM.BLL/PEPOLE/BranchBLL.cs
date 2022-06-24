@@ -69,7 +69,7 @@ namespace DSM.BLL.PEPOLE
 
         }
 
-        public resultDTO EditCheckedBrabch(Guid? ID, BranchDTO branch)
+        public resultDTO EditCheckedBrabch(Guid? ID, BranchDTO branch,bool c)
         {
             resultDTO result = new resultDTO();
             List<Branch> branches = branchRepo.GetAll().ToList();
@@ -80,7 +80,7 @@ namespace DSM.BLL.PEPOLE
                 if (brs.Any(s => s.Name != branch.Name))
                 {
 
-                    br.IsActive = branch.IsActive;
+                    br.IsActive = c;
                   
                     branchRepo.Update(br);
                     branchRepo.SaveChange();

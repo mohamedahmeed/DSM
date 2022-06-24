@@ -54,7 +54,7 @@
          
             <td>
                 @*@Html.DisplayFor(modelItem => item.IsActive)*@
-                <input type="checkbox" name="@item.IsActive" onchange="Modify('@item.ID')" checked="@item.IsActive">
+                <input type="checkbox" onclick="this.value=this.checked"  onchange="Modify('@item.ID',value)" checked="@item.IsActive">
 
             </td>
 
@@ -80,13 +80,13 @@
                 }
             }
 
-            function Modify(va){
+            function Modify(va,r){
               //var r=  window.confirm("Are You sure !!!1")
               //if(r){
 
                   $.ajax({
                     method: 'post',
-                   
+                   data:{IsActive:r},
                     url: 'http://localhost:4540/people/Branch/EditChecked/'+va,
                     contentType: false,
                     processData: false,

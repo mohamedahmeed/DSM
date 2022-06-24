@@ -81,10 +81,10 @@ namespace DSM.Areas.people.controller
            
         }
         [HttpPost]
-        public ActionResult EditChecked(BranchDTO branchDTO)
+        public ActionResult EditChecked(BranchDTO branchDTO,bool d)
         {
 
-            branch.EditCheckedBrabch(branchDTO.ID, branchDTO);
+            branch.EditCheckedBrabch(branchDTO.ID, branchDTO,d);
             return Redirect("http://localhost:4540/people/branch/index");
 
 
