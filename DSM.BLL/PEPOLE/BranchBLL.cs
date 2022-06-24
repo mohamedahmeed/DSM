@@ -68,6 +68,32 @@ namespace DSM.BLL.PEPOLE
             return result;
 
         }
+
+        public resultDTO EditCheckedBrabch(Guid? ID, BranchDTO branch)
+        {
+            resultDTO result = new resultDTO();
+            List<Branch> branches = branchRepo.GetAll().ToList();
+            var br = branches.Where(r => r.ID == branch.ID).FirstOrDefault();
+            if (br != null)
+            {
+                var brs = branches.Where(s => s.ID != branch.ID);
+                if (brs.Any(s => s.Name != branch.Name))
+                {
+
+                    br.IsActive = branch.IsActive;
+                  
+                    branchRepo.Update(br);
+                    branchRepo.SaveChange();
+                    result.message = "Edit Succes";
+                    return result;
+                }
+                result.message = "Edit faild";
+                return result;
+            }
+            result.message = "Can not Find The Branch";
+            return result;
+
+        }
         public resultDTO SaveAdd(BranchDTO branch)
         {
             resultDTO r = new resultDTO();

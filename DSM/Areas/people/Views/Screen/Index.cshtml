@@ -62,8 +62,8 @@
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
-                
-              @Html.DisplayFor(modelItem => item.IsActive)
+                 <input type="checkbox" checked="@item.IsActive">
+             @* @Html.DisplayFor(modelItem => item.IsActive)*@
               @*<input id="inp" type="checkbox" value="@item.IsActive" >*@
                
             </td>

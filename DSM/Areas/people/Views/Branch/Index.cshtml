@@ -14,7 +14,7 @@
 <table class="table">
     <thead>
         <tr>
-            
+             
             <th>
                 @*@Html.DisplayNameFor(model => model.ID)*@
                 Name
@@ -38,7 +38,7 @@
 @foreach (var item in (List<DSM.TABLES.Guide.Branch>) Model.data) {
         <tr>
            
-           
+          
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -53,7 +53,9 @@
             </td>
          
             <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
+                @*@Html.DisplayFor(modelItem => item.IsActive)*@
+                <input type="checkbox" name="@item.IsActive" onchange="Modify('@item.ID')" checked="@item.IsActive">
+
             </td>
 
             <td>
@@ -76,6 +78,42 @@
                 return event.preventDefault();
                  
                 }
+            }
+
+            function Modify(va){
+              //var r=  window.confirm("Are You sure !!!1")
+              //if(r){
+
+                  $.ajax({
+                    method: 'post',
+                   
+                    url: 'http://localhost:4540/people/Branch/EditChecked/'+va,
+                    contentType: false,
+                    processData: false,
+                    dataType:"Json",
+                    success:function(res)
+                    {
+                        if (res.status)
+                        {
+                            alertify.success(res.message);
+                            setTimeout(function(){
+                                  window.location.href = "http://localhost:4540/people/Branch/Index";
+                            }, 3000);
+
+                        }
+                        else
+                        {
+                            alertify.error(res.message);
+                        }
+
+                    },
+                         error: function (res)
+                         {
+                        alertify.error( res.message);
+                    }
+
+                }); 
+            //  }
             }
         </script>
     }

@@ -70,8 +70,8 @@ namespace DSM.Areas.people.controller
         }
 
         // POST: BranchController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+       
+        
         public ActionResult Edit(BranchDTO branchDTO )
         {
            
@@ -79,6 +79,15 @@ namespace DSM.Areas.people.controller
             return Redirect("http://localhost:4540/people/branch/index");
             
            
+        }
+        [HttpPost]
+        public ActionResult EditChecked(BranchDTO branchDTO)
+        {
+
+            branch.EditCheckedBrabch(branchDTO.ID, branchDTO);
+            return Redirect("http://localhost:4540/people/branch/index");
+
+
         }
 
         // GET: BranchController/Delete/5
