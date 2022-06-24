@@ -69,15 +69,15 @@ namespace DSM.BLL.PEPOLE
 
         }
 
-        public resultDTO EditCheckedBrabch(Guid? ID, BranchDTO branch,bool c)
+        public resultDTO EditCheckedBrabch(Guid? ID,bool c)
         {
             resultDTO result = new resultDTO();
             List<Branch> branches = branchRepo.GetAll().ToList();
-            var br = branches.Where(r => r.ID == branch.ID).FirstOrDefault();
+            var br = branches.Where(r => r.ID == ID).FirstOrDefault();
             if (br != null)
             {
-                var brs = branches.Where(s => s.ID != branch.ID);
-                if (brs.Any(s => s.Name != branch.Name))
+                var brs = branches.Where(s => s.ID != ID);
+                if (brs.Any(s => s.Name != br.Name))
                 {
 
                     br.IsActive = c;
@@ -85,11 +85,14 @@ namespace DSM.BLL.PEPOLE
                     branchRepo.Update(br);
                     branchRepo.SaveChange();
                     result.message = "Edit Succes";
+                    result.Status = true;
                     return result;
                 }
+                result.Status = false;
                 result.message = "Edit faild";
                 return result;
             }
+            result.Status = false;
             result.message = "Can not Find The Branch";
             return result;
 
