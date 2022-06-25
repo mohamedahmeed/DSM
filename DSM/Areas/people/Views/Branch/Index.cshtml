@@ -1,84 +1,91 @@
 ﻿@using DSM.TABLES
-
 @model DSM.DTO.resultDTO
-
 @{
     ViewData["Title"] = "Index";
 }
-
 <h1>Index</h1>
-
 <p>
     <a href="http://localhost:4540/people/branch/Add">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="tbl">
     <thead>
-        <tr>
-             
+        <tr>            
             <th>
-                @*@Html.DisplayNameFor(model => model.ID)*@
                 Name
             </th>
             <th>
-               @* @Html.DisplayNameFor(model => model.Name)*@
                CreatedDate
             </th>
-            <th>
-               @* @Html.DisplayNameFor(model => model.CreatedDate)*@
-               Poster
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.IsActive)*@
+             <th>
                 IsActive
             </th>
+            <th>
+               Poster
+            </th>
+           
             <th></th>
+             <th></th>
+              <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in (List<DSM.TABLES.Guide.Branch>) Model.data) {
-        <tr>
-           
-          
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-
-               <td>
-               
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-
-              <td>
-                @Html.DisplayFor(modelItem => item.Poster)
-            </td>
-         
-            <td>
-                @*@Html.DisplayFor(modelItem => item.IsActive)*@
-                <input type="checkbox"   onchange="Modify('@item.ID','@item.IsActive')" checked="@item.IsActive">
-
-            </td>
-
-            <td>
-             
-                 <a href="/people/branch/Edit/@item.ID"> Edit</a>|
-               @* @Html.ActionLink("Delete", "Delete", new { id=item.ID  })*@
-                <a href="/people/branch/details/@item.ID"> Details</a>|
-                 <a href="/people/branch/delete/@item.ID" onclick="del()"> Delete</a>
-
-            </td>
-        </tr>
-}
-    </tbody>
-
+  
+    </table>
     @section Scripts{
         <script>
-            function del(){
-                var c=confirm("Are You sure You Want To Delete");
-                if(!c){
-                return event.preventDefault();
+
+            
+            $(document).ready(function () {
+    $("#tbl").DataTable({
+        "processing": true,
+        "serverSide": true,
+        "filter": true,
+        "ajax": {
+            "url": "http://localhost:4540/people/branch/getDataTable",
+            "type": "POST",
+            "datatype": "json"
+        },
+       
+        "columns": [
+           
+            { "data": "name", "name": "Name", "autoWidth": true },
+            { "data": "createdDate", "name": "CreatedDate", "autoWidth": true },
+            { "data": "isActive", "name": "IsActive","type":"CheckBox", "autoWidth": true ,
+             render: function (data,type,row) {
+                          if (data == true) {
+                            return '<input onChange="Modify('+data.+','+data.isActive+')" type="checkbox" checked>';
+                          } else {
+                            return '<input onChange="Modify('+row.iD+','+data.isActive+')" type="checkbox">';
+                          }
+                        return data;
+                      }  
+                     
+            },
+            { "data": "poster", "name": "poster", "autoWidth": true },
+           
+
+            {
+                "render": function (data,row) { return "<a href='#' class='btn btn-info' onclick=del('" + row.id+ "'); >Details</a>";   }
+            },
+            {
+                 "render": function (data,row) { return "<a href='#' class='btn btn-dark' onclick=Modify('" + row.id+ "'); >Edit</a>";   },
+            },
+            {
+                  "render": function (data,row) { return "<a href='#' class='btn btn-danger' onclick=del('" + row.id+ "'); >Delete</a>";   }
+            }
+        ]
+    });
+});  
+
+
+
+            function del(h){
+                //var c=confirm("Are You sure You Want To Delete");
+                //if(!c){
+                //return event.preventDefault();
+                alert(h);
                  
                 }
-            }
+           
 
             function Modify(va,r){
               //var r=  window.confirm("Are You sure !!!1")
@@ -87,18 +94,9 @@
               var x;
               if(r=="True"){
                    x=false;
-                   console.log("fffffffffff")
-                   console.log(r)
-                   console.log(x)
-
-
               }
               else {
-
                   x=true
-                  console.log("ttttttttttttttt")
-                  console.log(r)
-                  console.log(x)
               }
               console.log(x)
                   $.ajax({
@@ -131,6 +129,7 @@
                 }); 
             //  }
             }
+           
         </script>
     }
- </table>
+ 

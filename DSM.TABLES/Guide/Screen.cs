@@ -21,7 +21,7 @@ namespace DSM.TABLES.Guide
         [ForeignKey("Branch")]
         public Guid? BranchId { get; set; }
 
-        public Branch Branch { get; set; }
+        public virtual Branch Branch { get; set; }
 
        
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DSM.Areas.people.controller
 {
@@ -26,6 +27,8 @@ namespace DSM.Areas.people.controller
             
             return View(b);
         }
+     
+       
         [HttpGet]
         public ActionResult Details(Guid id)
         {
@@ -70,8 +73,36 @@ namespace DSM.Areas.people.controller
         }
 
         // POST: BranchController/Edit/5
-       
-        
+
+        [HttpPost]
+        public IActionResult getDataTable()
+        {
+            var draw = Request.Form["draw"].FirstOrDefault();
+            var start = Request.Form["start"].FirstOrDefault();
+            var length = Request.Form["length"].FirstOrDefault();
+            var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+            var searchValue = Request.Form["search[value]"].FirstOrDefault();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int recordsTotal = 0;
+
+            var ScreenData = from Branch in branch.GetDataBranches() select Branch;
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+            //{
+            //    ScreenData = ScreenData..OrderBy(sortColumn + " " + sortColumnDirection);
+            //}
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                ScreenData = ScreenData.Where(m => m.Name.Contains(searchValue));
+
+            }
+            recordsTotal = ScreenData.Count();
+            var data = ScreenData.Skip(skip).Take(pageSize).ToList();
+            var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+
+            return Json(jsonData);
+        }
         public ActionResult Edit(BranchDTO branchDTO )
         {
            
@@ -84,8 +115,9 @@ namespace DSM.Areas.people.controller
         public ActionResult EditChecked(Guid? id,bool d)
         {
 
-            branch.EditCheckedBrabch(id,d);
-            return Redirect("http://localhost:4540/people/branch/index");
+           
+            return Json(branch.EditCheckedBrabch(id, d)) ;
+           // return Redirect("http://localhost:4540/people/branch/index");
 
 
         }

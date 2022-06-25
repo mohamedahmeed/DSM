@@ -28,6 +28,26 @@ namespace DSM.BLL.PEPOLE
         {
          return  branchRepo.GetAll().ToList();
         } 
+
+        public List<BranchDTO> GetDataBranches()
+        {
+            List<Branch> branches = branchRepo.GetAll().ToList();
+            List<BranchDTO> result = new List<BranchDTO>();
+            foreach (var item in branches)
+            {
+                BranchDTO branch = new BranchDTO();
+                branch.ID = item.ID;
+                branch.Name = item.Name;
+                branch.CreatedDate=item.CreatedDate;
+                branch.Poster=item.Poster;
+                branch.IsActive=item.IsActive;
+                result.Add(branch);
+
+            }
+            return result; 
+
+
+        }
         public resultDTO GetBranches()
         {
             resultDTO result = new resultDTO();

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DSM.Areas.people.controller
 {
@@ -75,7 +76,35 @@ namespace DSM.Areas.people.controller
             return Redirect("http://localhost:4540/people/screen/index");
 
         }
-
+        [HttpPost]
+        public IActionResult getDataTable()
+        {
+            var draw = Request.Form["draw"].FirstOrDefault();
+            var start = Request.Form["start"].FirstOrDefault();
+            var length = Request.Form["length"].FirstOrDefault();
+            var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+            var searchValue = Request.Form["search[value]"].FirstOrDefault();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int recordsTotal = 0;
+            
+            var ScreenData = from ImagesScreen in screen.getAllScreens() select ImagesScreen;
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+            //{
+            //    ScreenData = ScreenData..OrderBy(sortColumn + " " + sortColumnDirection);
+            //}
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                ScreenData = ScreenData.Where(m => m.Name.Contains(searchValue)
+                                            || m.Code.Contains(searchValue));
+                                           
+            }
+            recordsTotal = ScreenData.Count();
+            var data = ScreenData.Skip(skip).Take(pageSize).ToList();
+            var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+            return Json(jsonData);
+        }
         // GET: ScreenController/Delete/5
         public ActionResult Delete(ImagesScreen s)
         {

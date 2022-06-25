@@ -29,6 +29,46 @@ namespace DSM.BLL.PEPOLE
             result.data = s;
             return result;
         }
+        public IEnumerable<ImagesScreen> getAllScreen()
+        {
+            return screenRepo.GetAll().Include(s => s.Branch).ToList();
+        }
+        public IEnumerable<ScreenDTO> getAllScreens()
+        {
+            List<ScreenDTO> ss = new List<ScreenDTO>();
+            List<ImagesScreen> im = screenRepo.GetAll().Include(s=>s.Branch).ToList();
+            foreach (var screen in im)
+            {
+                var x = screen.Branch;
+              
+                if (x == null)
+                {
+                    ScreenDTO s = new ScreenDTO();
+                    s.BranchName = "not asgin to Branch"; 
+                    s.Name = screen.Name;
+                    s.Notes = screen.Notes;
+                    s.IsActive = screen.IsActive;
+                    s.ScreenSize = screen.ScreenSize;
+                    s.Code = screen.Code;
+                    s.CreatedDate = screen.CreatedDate;
+                    ss.Add(s);
+                }
+                else
+                {
+                    ScreenDTO s = new ScreenDTO();
+                    s.BranchName = screen.Branch.Name;
+                    s.Name = screen.Name;
+                    s.Notes = screen.Notes;
+                    s.IsActive = screen.IsActive;
+                    s.ScreenSize = screen.ScreenSize;
+                    s.Code = screen.Code;
+                    s.CreatedDate = screen.CreatedDate;
+                    ss.Add(s);
+                }
+               
+            };
+            return ss;
+        }
         public ImagesScreen GetById(Guid? id)
         {
             return screenRepo.GetById(id);

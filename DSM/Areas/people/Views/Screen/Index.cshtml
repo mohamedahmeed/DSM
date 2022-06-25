@@ -21,7 +21,7 @@
 <p>
     <a href="http://localhost:4540/people/Screen/Add">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="tbl" >
     <thead>
         <tr>
             
@@ -51,43 +51,9 @@
     </thead>
     <tbody>
 
-@foreach (var item in(List<DSM.TABLES.Guide.ImagesScreen>) Model.data) {
-        <tr>
-           
-            <td>
-                @*Html.DisplayFor(modelItem => item.Name)*@
-                @item.Name
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                 <input type="checkbox" checked="@item.IsActive">
-             @* @Html.DisplayFor(modelItem => item.IsActive)*@
-              @*<input id="inp" type="checkbox" value="@item.IsActive" >*@
-               
-            </td>
-             <td>
-                @Html.DisplayFor(modelItem => item.Branch.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScreenSize)
-            </td>
-            <td>
-                <a href="/people/Screen/Edit/@item.ID"> Edit</a>|
-                <a href="/people/Screen/details/@item.ID"> Details</a>|
-                 <a href="/people/Screen/delete/@item.ID" onclick="del()"> Delete</a>
 
-            </td>
-        </tr>
-}
     </tbody>
+    </table>
      @section Scripts{
         <script>
             function del(){
@@ -97,19 +63,50 @@
                  
                 }
             }
-           //$(document).ready(function () {
-           //  // var el = document.getElementById('isactive');
-           //   document.getElementById('tt').disabled = false;
-           //   //  el.myProperty = "@c";
-           //}
-           $(document).ready(function () 
-           {
-              console.log("hi")
-             if($("#inp").val) {
-                 console.log("hi11")
-                 $("#inp").setAttribute( 'checked', 'checked' );
-             }
-           }
+
+            $(document).ready(function () {
+    $("#tbl").DataTable({
+        "processing": true,
+        "serverSide": true,
+        "filter": true,
+        "ajax": {
+            "url": "http://localhost:4540/people/screen/getDataTable",
+            "type": "POST",
+            "datatype": "json"
+        },
+       
+        "columns": [
+           
+            { "data": "name", "name": "Name", "autoWidth": true },
+            { "data": "createdDate", "name": "CreatedDate", "autoWidth": true },
+            { "data": "isActive", "name": "IsActive","type":"CheckBox", "autoWidth": true ,
+             render: function (data,type,row) {
+                          if (data == true) {
+                            return '<input type="checkbox" checked>';
+                          } else {
+                            return '<input type="checkbox">';
+                          }
+                        return data;
+                      }  
+                     
+            },
+            { "data": "branchName", "name": "Branch", "autoWidth": true },
+            { "data": "code", "name": "Code", "autoWidth": true },
+            { "data": "notes", "name": "Notes", "autoWidth": true },
+            { "data": "screenSize", "name": "ScreenSize", "autoWidth": true },
+
+            {
+                "render": function (data,row) { return "<a href='#' class='btn btn-info' onclick=DeleteCustomer('" + row.id+ "'); >Details</a>";   },
+                "render": function (data,row) { return "<a href='#' class='btn btn-dark' onclick=DeleteCustomer('" + row.id+ "'); >Edit</a>";   },
+                "render": function (data,row) { return "<a href='#' class='btn btn-danger' onclick=DeleteCustomer('" + row.id+ "'); >Delete</a>";   }
+
+            },
+        ]
+    });
+});  
+$("#tbl").on('change',"input[type='checkbox']",function(e){
+    window.alert("hi");
+    });
         </script>
     }
-</table>
+
