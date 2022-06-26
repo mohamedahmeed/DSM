@@ -123,25 +123,15 @@ namespace DSM.Areas.people.controller
         }
 
         // GET: BranchController/Delete/5
-        public ActionResult Delete(Branch b)
-        {
-            branch.Delete(b);
-            return Redirect("http://localhost:4540/people/branch/index");
-        }
+      
 
-        // POST: BranchController/Delete/5
-        //[HttpPost]
-        
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+       // POST: BranchController/Delete/5
+        [HttpPost]
+
+        public ActionResult Delete(Guid id)
+        {
+           
+            return Json(branch.Delete(id));
+        }
     }
 }

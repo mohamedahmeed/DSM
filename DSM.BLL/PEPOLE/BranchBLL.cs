@@ -13,6 +13,7 @@ namespace DSM.BLL.PEPOLE
 {
     public class BranchBLL
     {
+
         private readonly IRepository<Branch> branchRepo;
         private readonly IMapper mapper;
 
@@ -145,10 +146,19 @@ namespace DSM.BLL.PEPOLE
             return r;
         }
 
-        public Branch Delete(Branch b)
+        public resultDTO Delete(Guid id)
         {
-            branchRepo.Delete(b);
-            return b;
+            Branch br = branchRepo.GetById(id);
+            resultDTO r = new resultDTO();
+            if (branchRepo.Delete(br))
+            {
+                r.message = "delete succes";
+                r.Status = true;
+                return r;
+            }
+            r.message = "delete faild";
+            r.Status = false;
+            return r;
         }
     }
 }
