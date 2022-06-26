@@ -33,9 +33,9 @@
     </table>
     @section Scripts{
         <script>
-            
+            let tbl;
             $(document).ready(function () {
-    $("#tbl").DataTable({
+        tbl=$("#tbl").DataTable({
         "processing": true,
         "serverSide": true,
         "filter": true,
@@ -96,7 +96,8 @@
                         {
                             alertify.success(res.message);
                             setTimeout(function(){
-                                  window.location.href = "http://localhost:4540/people/Branch/Index";
+                                 // window.location.href = "http://localhost:4540/people/Branch/Index";
+                                 tbl.ajax.reload(null,false);
                             }, 3000);
 
                         }
