@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Index";
    } 
-@{
+@*@{
     var c="checked";
     foreach (var item in (List<DSM.TABLES.Guide.ImagesScreen>) Model.data)
     {
@@ -12,9 +12,8 @@
             c = "checked";
         }
     }
+}*@
 
-  
-}
 }
 <h1>Index</h1>
 
@@ -47,6 +46,8 @@
                 ScreenSize
             </th>
             <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -70,7 +71,7 @@
         "serverSide": true,
         "filter": true,
         "ajax": {
-            "url": "http://localhost:4540/people/screen/getDataTable",
+            "url": "http://localhost:4540/people/screen/loadTableData",
             "type": "POST",
             "datatype": "json"
         },
@@ -82,9 +83,9 @@
             { "data": "isActive", "name": "IsActive","type":"CheckBox", "autoWidth": true ,
              render: function (data,type,row) {
                           if (data == true) {
-                            return '<input type="checkbox" checked>';
+                            return `<input onChange="modify('${row.id}','${row.isActive}')" type="checkbox" checked>`;
                           } else {
-                            return '<input type="checkbox">';
+                            return `<input onChange="modify('${row.id}','${row.isActive}')" type="checkbox">`;
                           }
                         return data;
                       }  
@@ -96,17 +97,134 @@
             { "data": "screenSize", "name": "ScreenSize", "autoWidth": true },
 
             {
-                "render": function (data,row) { return "<a href='#' class='btn btn-info' onclick=DeleteCustomer('" + row.id+ "'); >Details</a>";   },
-                "render": function (data,row) { return "<a href='#' class='btn btn-dark' onclick=DeleteCustomer('" + row.id+ "'); >Edit</a>";   },
-                "render": function (data,row) { return "<a href='#' class='btn btn-danger' onclick=DeleteCustomer('" + row.id+ "'); >Delete</a>";   }
-
+                "render": function (data,type,row) { return `<a href='#' class='btn btn-info' onclick=DeleteCustomer('${row.id}'); >Details</a>`;   },
+            },
+             {
+                "render": function (data,type,row) { return `<a href='#' class='btn btn-dark' onclick=Edit('${row.id}'); >Edit</a>`;   },
+            },
+             {
+                "render": function (data,type,row) { return `<a href='#' class='btn btn-danger' onclick=del('${row.id}'); >Delete</a>`;   },
             },
         ]
     });
 });  
-$("#tbl").on('change',"input[type='checkbox']",function(e){
-    window.alert("hi");
-    });
+
+
+function Edit(id){
+    var x= confirm("Are You sure")
+    if(!x){
+        event.preventDefault();
+    }
+    else{
+
+    
+     $.ajax({ 
+                    method: 'get',
+                    data:{'id':id},
+                    url: 'http://localhost:4540/people/Screen/Edit/',
+                                      
+                    success:function(res)
+                    {
+                        if (res.status)
+                        {
+                            alertify.success(res.message);
+                            setTimeout(function(){
+                                  window.location.href = "http://localhost:4540/people/Screen/Index";
+                            }, 3000);
+
+                        }
+                        else
+                        {
+                            alertify.error(res.message);
+                        }
+
+                    },
+                         error: function (res)
+                         {
+                        alertify.error( res.message);
+                    }
+
+                }); 
+
+                }
+}
+function modify(id ,isactive){
+    var x;
+    if(isactive=="true"){
+        x=false;
+    }
+    else{
+        x=true;
+    }
+     $.ajax({ 
+                    method: 'post',
+                    data:{'id':id,'s':x},
+                    url: 'http://localhost:4540/people/screen/EditActive/',
+                                      
+                    success:function(res)
+                    {
+                        if (res.status)
+                        {
+                            alertify.success(res.message);
+                            setTimeout(function(){
+                                  window.location.href = "http://localhost:4540/people/Screen/Index";
+                            }, 3000);
+
+                        }
+                        else
+                        {
+                            alertify.error(res.message);
+                        }
+
+                    },
+                         error: function (res)
+                         {
+                        alertify.error( res.message);
+                    }
+
+                }); 
+
+}
+
+
+function del(id){
+    var x= confirm("Are You sure")
+    if(!x){
+        event.preventDefault();
+    }
+    else{
+
+    
+     $.ajax({ 
+                    method: 'post',
+                    data:{'s':id},
+                    url: 'http://localhost:4540/people/Screen/Delete/',
+                                      
+                    success:function(res)
+                    {
+                        if (res.status)
+                        {
+                            alertify.success(res.message);
+                            setTimeout(function(){
+                                  window.location.href = "http://localhost:4540/people/Screen/Index";
+                            }, 3000);
+
+                        }
+                        else
+                        {
+                            alertify.error(res.message);
+                        }
+
+                    },
+                         error: function (res)
+                         {
+                        alertify.error( res.message);
+                    }
+
+                }); 
+
+                }
+}
         </script>
     }
 

@@ -83,7 +83,7 @@ namespace DSM.DAL
         /// <param name="parameters">Parameters </param>
         /// <param name="commandType">Query or StoredProcedure default is StoredProcedure</param>
         /// <returns></returns> 
-      //  List<U> ExecuteStoredProcedure<U>(string query, SqlParameter[] parameters = null, CommandType commandType = CommandType.StoredProcedure);
+        List<U> ExecuteStoredProcedure<U>(string query, SqlParameter[] parameters = null, CommandType commandType = CommandType.StoredProcedure);
 
         #endregion
 

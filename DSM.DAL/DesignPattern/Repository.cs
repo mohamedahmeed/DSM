@@ -208,25 +208,25 @@ namespace DSM.DAL
         /// <param name="parameters">Parameters </param>
         /// <param name="commandType">Query or StoredProcedure default is StoredProcedure</param>
         /// <returns></returns>
-        //public List<U> ExecuteStoredProcedure<U>(string query, SqlParameter[] parameters = null, CommandType commandType = CommandType.StoredProcedure)
-        
-        //{
-        //    /// in _db.Database.GetDbConnection().ConnectionString if the password didn't get inside connection string
-        //    /// please make sure you add => "Persist Security Info=true;" inside your connection string in appsetting.json
-        //    SqlConnection sqlConnection = new SqlConnection(_db.Database.GetDbConnection().ConnectionString);
-        //    SqlCommand cmd = new SqlCommand(query, sqlConnection);
-        //    if (parameters != null)
-        //        cmd.Parameters.AddRange(parameters);
-        //    if(sqlConnection.State!=ConnectionState.Open)
-        //    sqlConnection.Open();
-        //    cmd.CommandType = commandType;
-        //    var reader = cmd.ExecuteReader();
+        public List<U> ExecuteStoredProcedure<U>(string query, SqlParameter[] parameters = null, CommandType commandType = CommandType.StoredProcedure)
 
-        //    DataTable tbl = new DataTable();
-        //    tbl.Load(reader, LoadOption.PreserveChanges);
-        //    sqlConnection.Close();
-        //    return ConvertDataTable<U>(tbl);
-        //}
+        {
+            /// in _db.Database.GetDbConnection().ConnectionString if the password didn't get inside connection string
+            /// please make sure you add => "Persist Security Info=true;" inside your connection string in appsetting.json
+            SqlConnection sqlConnection = new SqlConnection(_db.Database.GetDbConnection().ConnectionString);
+            SqlCommand cmd = new SqlCommand(query, sqlConnection);
+            if (parameters != null)
+                cmd.Parameters.AddRange(parameters);
+            if (sqlConnection.State != ConnectionState.Open)
+                sqlConnection.Open();
+            cmd.CommandType = commandType;
+            var reader = cmd.ExecuteReader();
+
+            DataTable tbl = new DataTable();
+            tbl.Load(reader, LoadOption.PreserveChanges);
+            sqlConnection.Close();
+            return ConvertDataTable<U>(tbl);
+        }
 
         private List<U> ConvertDataTable<U>(DataTable dt)
         {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DSM.COMMON.General;
 using DSM.DAL;
 using DSM.DTO;
 using DSM.TABLES.Guide;
@@ -13,6 +14,7 @@ namespace DSM.BLL.PEPOLE
 {
     public class ScreenBLL
     {
+        
         private readonly IRepository<ImagesScreen> screenRepo;
         private readonly IMapper mapper;
 
@@ -135,9 +137,9 @@ namespace DSM.BLL.PEPOLE
                     r.Status = true;
                     return r;
                 }
-                var sc2 = screens.Where(h => h.ID != screen.ID).ToList();
+              //  var sc2 = screens.Where(h => h.ID != screen.ID).ToList();
 
-                var xd = sc2.Any(y => y.Name != screen.Name);
+              //  var xd = sc2.Any(y => y.Name != screen.Name);
             //  var sc2 = screens.Where(h => h.ID != screen.ID).ToList();
 
                 //    if (sc2.Any(y => y.Name != screen.Name))
@@ -164,10 +166,54 @@ namespace DSM.BLL.PEPOLE
             return r;
         }
 
-        public ImagesScreen Delete(ImagesScreen b)
+        public resultDTO EditIsActive(Guid? Id,bool s)
         {
-            screenRepo.Delete(b);
-            return b;
+            resultDTO result = new resultDTO();
+            List<ImagesScreen> sc = screenRepo.GetAll().ToList();
+          var row=sc.Where(s=>s.ID == Id).FirstOrDefault();
+            if (row != null)
+            {
+                var data = sc.Where(s => s.ID != Id);
+                if (data.Any(s => s.Name != row.Name))
+                {
+                    row.IsActive = s;
+                    screenRepo.Update(row);
+                    screenRepo.SaveChange();
+                    result.Status = true;
+                    result.message = "Edit succese";
+                }
+                else
+                {
+                    result.Status = false;
+                    result.message = "Edit faild";
+                }
+                return result;
+            }
+            result.message = "Branch Not Found";
+            return result;
+        }
+
+        public resultDTO Delete(Guid b)
+        {
+            ImagesScreen  data = screenRepo.GetById(b);
+            resultDTO r = new resultDTO();
+            if (screenRepo.Delete(data))
+            {
+                r.message = "delete succes";
+                r.Status = true;
+                return r;
+            }
+            r.message = "delete faild";
+            r.Status = false;
+            return r;
+        }
+
+
+
+        public DataTableResponce loadData(DataTableRequest data)
+        {
+            var d = screenRepo.ExecuteStoredProcedure<ScreenTableDTO>("[dbo].[spscreens]", data.ToSqlParameter(),System.Data.CommandType.StoredProcedure);
+            return new DataTableResponce() { AaData = d, ITotalRecords = d?.FirstOrDefault()?.TotalCount ?? 0 };
         }
     }
 }

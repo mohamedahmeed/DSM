@@ -29,12 +29,12 @@ namespace DSM.Areas.people.controller
         }
      
        
-        [HttpGet]
+        [HttpPost]
         public ActionResult Details(Guid id)
         {
-            var v = branch.GetBranchById(id);
-            return View(v);
-        }
+           return Json(branch.GetBranchById(id));
+            
+            }
         [HttpGet]
          public ActionResult Add()
         

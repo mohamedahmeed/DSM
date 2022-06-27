@@ -1,4 +1,5 @@
 ﻿using DSM.BLL.PEPOLE;
+using DSM.COMMON.General;
 using DSM.DTO;
 using DSM.TABLES.Guide;
 using Microsoft.AspNetCore.Http;
@@ -23,8 +24,8 @@ namespace DSM.Areas.people.controller
         // GET: ScreenController
         public ActionResult Index()
         {
-            var s = screen.GetAll();
-            return View(s);
+          //  var s = screen.GetAll();
+            return View();
         }
 
         // GET: ScreenController/Details/5
@@ -50,9 +51,10 @@ namespace DSM.Areas.people.controller
         // GET: ScreenController/Edit/5
         public ActionResult Edit(Guid? id)
         {
+            
             List<Branch> b = branch.Branches();
             ViewBag.bb = b;
-            var s= screen.GetById(id);
+            var s = screen.GetById(id);
             ScreenDTO r = new ScreenDTO()
             {
                 Code = s.Code,
@@ -60,13 +62,16 @@ namespace DSM.Areas.people.controller
                 CreatedDate = s.CreatedDate,
                 ScreenSize = s.ScreenSize,
                 Notes = s.Notes,
-                IsActive= s.IsActive,
-                BranchId=s.BranchId,
+                IsActive = s.IsActive,
+                BranchId = s.BranchId,
             };
-
-            return View(r);
+          return Json(  screen.Edit(id, r));
+            
         }
-
+        public ActionResult EditActive(Guid? id,bool s)
+        {
+            return Json(screen.EditIsActive(id, s));
+        }
         // POST: ScreenController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -106,27 +111,17 @@ namespace DSM.Areas.people.controller
             return Json(jsonData);
         }
         // GET: ScreenController/Delete/5
-        public ActionResult Delete(ImagesScreen s)
+        [HttpPost]
+        public ActionResult Delete(Guid s)
         {
            // var x = screen.GetById(id);
-            screen.Delete(s);
-            return Redirect("http://localhost:4540/people/screen/index");
+         
+            return Json(screen.Delete(s));
             
         }
 
         // POST: ScreenController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
+        public IActionResult loadTableData(DataTableRequest data) =>Json(screen.loadData(data));
     }
 }

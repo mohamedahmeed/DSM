@@ -19,11 +19,7 @@ namespace DSM.TABLES.Base
         public DateTime CreatedDate { get; set; }
 
         public bool IsActive { get; set; }
-       
-        
-
-       
-
+ 
         #endregion
 
 

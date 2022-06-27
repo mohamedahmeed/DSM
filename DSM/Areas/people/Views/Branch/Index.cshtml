@@ -31,6 +31,28 @@
     </thead>
   
     </table>
+
+    <button type="button" class='btn btn-info' data-bs-toggle='modal' data-bs-target='#exampleModal' >
+  Launch demo modal
+</button>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> Employee Details</h5>
+        <button type="button" class="btn-close" onclick='celare()'; data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+               <div id="detials">
+           
+               </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
     @section Scripts{
         <script>
             
@@ -63,7 +85,7 @@
            
 
             {
-                "render": function (data,type,row) { return `<a href='#' class='btn btn-info' onclick="del('${row.id}')"; >Details</a>`;   }
+                "render": function (data,type,row) { return `<button   onclick="show('${row.id}')"; >Details</button>`;   }
             },
             {
                  "render": function (data,type,row) { return `<a href='#' class='btn btn-dark' onclick="del('${row.id}')"; >Edit</a>`;   },
@@ -75,7 +97,21 @@
     });
 });  
 
+function show(id){
+            
+             $.ajax({
+                url:'/people/Branch/Details',
+                data :{ id:id},
+                method:'POST',
+                dataType: 'JSON',
+                success:function(responce){
+                        $('<p>'+ responce.name+'</p>').appendTo('#detials');
+                        $('<p>'+ responce.createdDate+'</p>').appendTo('#detials');
+                        $('<p>'+ responce.poster+'</p>').appendTo('#detials');
+                        }
 
+                    });
+        };
 
             function del(h){
                 console.log(h);
@@ -89,14 +125,14 @@
                      
                     method: 'post',
                     data:{'id':h},
-                    url: 'http://localhost:4540/people/Branch/delete/',
+                    url: '/people/Branch/delete/',
                     success:function(res)
                     {
                         if (res.status)
                         {
                             alertify.success(res.message);
                             setTimeout(function(){
-                                  window.location.href = "http://localhost:4540/people/Branch/Index";
+                                  window.location.href = "/people/Branch/Index";
                             }, 3000);
 
                         }
