@@ -73,7 +73,8 @@
             { "data": "name", "name": "Name", "autoWidth": true },
             { "data": "createdDate", "name": "CreatedDate", "autoWidth": true },
             { "data": "isActive", "name": "IsActive","type":"CheckBox", "autoWidth": true ,
-             render: function (data,type,row) {
+             render: function (data,type,row) 
+             {
                           if (data == true) {
                             return `<input onChange="Modify('${row.id}','${row.isActive}')" type="checkbox" checked>`;
                           } else {
@@ -83,9 +84,12 @@
                       }  
                      
             },
-            { "data": "poster", "name": "poster", "autoWidth": true },
-           
-
+            { "data": "poster", "name": "poster", "autoWidth": true,
+             render: function (data,type,row) 
+             { 
+                 return `<img width='50px' height='50px' src='/BranchFiles/${row.poster}'/>`; 
+             }
+            },
             {
                 "render": function (data,type,row) { return `<button class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal"   onclick="show('${row.id}')"; >Details</button>`;   }
             },

@@ -25,9 +25,9 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Poster" class="control-label"></label>
-                <input asp-for="Poster" class="form-control" />
-                <span asp-validation-for="Poster" class="text-danger"></span>
+                <label asp-for="PosterBranch" class="control-label"></label>
+                <input asp-for="PosterBranch" type='file' class="form-control" />
+                <span asp-validation-for="PosterBranch" class="text-danger"></span>
             </div>
           
             <div class="form-group">
@@ -58,9 +58,10 @@
                
                 var frmdata = new FormData();
                 frmdata.append("Name", $("#Name").val());
-                frmdata.append("Poster", $("#Poster").val());
+                frmdata.append("PosterBranch", $("#PosterBranch")[0].files[0]);
                 frmdata.append("CreatedDate", $("#CreatedDate").val());
                 frmdata.append("IsActive", $("#IsActive").val());
+                console.log(frmdata);
                 $.ajax({
                     method: 'post',
                     data: frmdata,

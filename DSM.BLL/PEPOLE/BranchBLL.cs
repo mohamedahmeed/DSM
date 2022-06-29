@@ -5,9 +5,12 @@ using DSM.TABLES.Guide;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+
 
 namespace DSM.BLL.PEPOLE
 {
@@ -16,11 +19,13 @@ namespace DSM.BLL.PEPOLE
 
         private readonly IRepository<Branch> branchRepo;
         private readonly IMapper mapper;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public BranchBLL(IRepository<Branch> branchRepo, IMapper mapper)
+        public BranchBLL(IRepository<Branch> branchRepo, IMapper mapper, IWebHostEnvironment _webHostEnvironment)
         {
             this.branchRepo = branchRepo;
             this.mapper = mapper;
+            webHostEnvironment = _webHostEnvironment;
         }
 
 
@@ -45,6 +50,14 @@ namespace DSM.BLL.PEPOLE
                 result.Add(branch);
 
             }
+
+            //var lst = branchRepo.GetAllAsNoTracking().Select(item => new BranchDTO
+            //{
+            //    ID = item.ID,
+            //    Name = item.Name,
+            //    CreatedDate = item.CreatedDate,
+            //    Poster = item.Poster,
+            //});
             return result; 
 
 
@@ -63,6 +76,28 @@ namespace DSM.BLL.PEPOLE
             return bb;
         }
         #endregion
+        public string UploadImages(BranchDTO BranchDTO)
+        {
+            string uniqueFileName = null;
+            if (BranchDTO.PosterBranch != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "BranchFiles");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + BranchDTO.PosterBranch.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                try
+                {
+                    using var fileStream = new FileStream(filePath, FileMode.Create);
+                    BranchDTO.PosterBranch.CopyTo(fileStream);
+                }
+
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return uniqueFileName;
+        }
+
 
         public resultDTO EditBrabch(Guid? ID, BranchDTO branch)
         {
@@ -128,6 +163,7 @@ namespace DSM.BLL.PEPOLE
                 if (bb == null)
                 {
                     Branch b = mapper.Map<Branch>(branch);
+                    b.Poster = UploadImages(branch);
                     branchRepo.Insert(b);
 
                     r.message = "Add success";
