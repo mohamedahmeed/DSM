@@ -31,6 +31,30 @@
     </thead>
   
     </table>
+
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     @section Scripts{
         <script>
             let tbl;
@@ -63,7 +87,7 @@
            
 
             {
-                "render": function (data,type,row) { return `<button   onclick="show('${row.id}')"; >Details</button>`;   }
+                "render": function (data,type,row) { return `<button class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal"   onclick="show('${row.id}')"; >Details</button>`;   }
             },
             {
                  "render": function (data,type,row) { return `<a href='#' class='btn btn-dark' onclick="del('${row.id}')"; >Edit</a>`;   },
@@ -76,18 +100,29 @@
 });  
 
 function show(id){
-            
+           
+
+
              $.ajax({
                 url:'/people/Branch/Details',
                 data :{ id:id},
                 method:'POST',
                 dataType: 'JSON',
                 success:function(responce){
-                        $('<p>'+ responce.name+'</p>').appendTo('#detials');
-                        $('<p>'+ responce.createdDate+'</p>').appendTo('#detials');
-                        $('<p>'+ responce.poster+'</p>').appendTo('#detials');
-                        }
+                     alertify.confirm('Details', 
+                     `<p>${responce.name}</p>
+                     <p>${responce.createdDate}</p>
+                     <p>${responce.poster}</p>
+                     `
+                      
+                     , function(){ alertify.success('Ok') }
+                , function(){ alertify.error('Cancel')});
 
+                        },
+                        error: function (responce)
+                         {
+                        alertify.error( "no");
+                    }
                     });
         };
 
@@ -110,8 +145,8 @@ function show(id){
                         {
                             alertify.success(res.message);
                             setTimeout(function(){
-                                  window.location.href = "/people/Branch/Index";
-                            }, 3000);
+                                  tbl.ajax.reload(null,false)
+                            }, 1000);
 
                         }
                         else
@@ -151,8 +186,8 @@ function show(id){
                         {
                             alertify.success(res.message);
                             setTimeout(function(){
-                                  window.location.href = "http://localhost:4540/people/Branch/Index";
-                            }, 3000);
+                                   tbl.ajax.reload(null,false)
+                            }, 1000);
 
                         }
                         else

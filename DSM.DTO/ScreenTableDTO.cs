@@ -12,7 +12,7 @@ namespace DSM.DTO
         public string Name { get; set; }    
         public string BranchName { get; set; }
         public string Notes { get; set; }
-        public string CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public bool IsActive { get; set; }
         public int TotalCount { get; set; }
         public string Code { get; set; }

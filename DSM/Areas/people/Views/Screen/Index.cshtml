@@ -64,9 +64,9 @@
                  
                 }
             }
-
-            $(document).ready(function () {
-    $("#tbl").DataTable({
+            
+            $(document).ready(function () {        
+  var r= $("#tbl").DataTable({
         "processing": true,
         "serverSide": true,
         "filter": true,
@@ -100,54 +100,55 @@
                 "render": function (data,type,row) { return `<a href='#' class='btn btn-info' onclick=DeleteCustomer('${row.id}'); >Details</a>`;   },
             },
              {
-                "render": function (data,type,row) { return `<a href='#' class='btn btn-dark' onclick=Edit('${row.id}'); >Edit</a>`;   },
+                "render": function (data,type,row) { return `<a href='/people/screen/Edit/${row.id}' class='btn btn-dark'>Edit</a>`;   },
             },
              {
                 "render": function (data,type,row) { return `<a href='#' class='btn btn-danger' onclick=del('${row.id}'); >Delete</a>`;   },
             },
-        ]
+          
+        ] 
     });
-});  
+    
+});
 
-
-function Edit(id){
-    var x= confirm("Are You sure")
-    if(!x){
-        event.preventDefault();
-    }
-    else{
+//function Edit(id){
+//    var x= confirm("Are You sure")
+//    if(!x){
+//        event.preventDefault();
+//    }
+//    else{
 
     
-     $.ajax({ 
-                    method: 'get',
-                    data:{'id':id},
-                    url: 'http://localhost:4540/people/Screen/Edit/',
+//     $.ajax({ 
+//                    method: 'get',
+//                    data:{'id':id},
+//                    url: 'http://localhost:4540/people/Screen/Edit/',
                                       
-                    success:function(res)
-                    {
-                        if (res.status)
-                        {
-                            alertify.success(res.message);
-                            setTimeout(function(){
-                                  window.location.href = "http://localhost:4540/people/Screen/Index";
-                            }, 3000);
+//                    success:function(res)
+//                    {
+//                        if (res.status)
+//                        {
+//                            alertify.success(res.message);
+//                            setTimeout(function(){
+//                                  window.location.href = "http://localhost:4540/people/Screen/Index";
+//                            }, 3000);
 
-                        }
-                        else
-                        {
-                            alertify.error(res.message);
-                        }
+//                        }
+//                        else
+//                        {
+//                            alertify.error(res.message);
+//                        }
 
-                    },
-                         error: function (res)
-                         {
-                        alertify.error( res.message);
-                    }
+//                    },
+//                         error: function (res)
+//                         {
+//                        alertify.error( res.message);
+//                    }
 
-                }); 
+//                }); 
 
-                }
-}
+//                }
+//}
 function modify(id ,isactive){
     var x;
     if(isactive=="true"){
@@ -167,7 +168,7 @@ function modify(id ,isactive){
                         {
                             alertify.success(res.message);
                             setTimeout(function(){
-                                  window.location.href = "http://localhost:4540/people/Screen/Index";
+                                r.ajax.reload(null,false)
                             }, 3000);
 
                         }

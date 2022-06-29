@@ -34,7 +34,7 @@ namespace DSM.Areas.people.controller
         {
            return Json(branch.GetBranchById(id));
             
-            }
+           }
         [HttpGet]
          public ActionResult Add()
         
@@ -44,9 +44,7 @@ namespace DSM.Areas.people.controller
         [HttpPost]
         public ActionResult Save(BranchDTO bb)
         {
-
             return Json(branch.SaveAdd(bb));
-
         }
         // GET: BranchController/Details/5
         public ActionResult Details(int id)

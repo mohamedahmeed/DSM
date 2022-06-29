@@ -65,7 +65,7 @@ namespace DSM.Areas.people.controller
                 IsActive = s.IsActive,
                 BranchId = s.BranchId,
             };
-          return Json(  screen.Edit(id, r));
+            return View(r);
             
         }
         public ActionResult EditActive(Guid? id,bool s)
